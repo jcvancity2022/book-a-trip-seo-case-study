@@ -1,0 +1,12 @@
+# Secrets -- never commit real keys
+.env
+
+# Generated at runtime, not source
+backend/bookatrip.db
+__pycache__/
+*.pyc
+
+# Editor / OS
+.vscode/
+.DS_Store
+Thumbs.db

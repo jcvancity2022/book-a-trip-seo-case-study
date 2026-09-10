@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Booking confirmation - Book a Trip</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="inner">
+    <a class="logo" href="/">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M2 16.5 21 8l-3.5 9.5L12 15l-3 6-2-4.5L2 16.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      Book a Trip
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#destinations">Destinations</a></li>
+      <li><a href="/#plan">Plan a Trip</a></li>
+    </ul>
+    <a class="nav-cta" href="/">Book another trip</a>
+  </div>
+</header>
+
+<main class="confirm-shell">
+  <div id="icon-wrap" class="confirm-icon wait">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </div>
+  <h1 id="heading">Checking your payment&hellip;</h1>
+  <p class="confirm-sub" id="subheading">One moment while we confirm things.</p>
+
+  <div class="card" id="summary-card" style="display:none">
+    <h3>Trip summary</h3>
+    <div id="summary-body"></div>
+  </div>
+
+  <p class="spaced center"><a href="/">&larr; Back to Book a Trip</a></p>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-bottom">Book a Trip &mdash; SEO portfolio project. Not a licensed travel agency.</div>
+</footer>
+
+<script src="/script.js"></script>
+<script>confirmationPage();</script>
+</body>
+</html>

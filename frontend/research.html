@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keyword research log - Book a Trip (internal)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .research-shell { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+  .research-shell h1 { font-size: 1.6rem; }
+  .research-shell .lede { color: var(--text-muted); max-width: 70ch; margin-bottom: 2rem; }
+  .kw-form { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .kw-form .field.wide { grid-column: 1 / -1; }
+  @media (max-width: 760px) { .kw-form { grid-template-columns: 1fr; } }
+  .kw-form-actions { grid-column: 1 / -1; display: flex; gap: 0.75rem; align-items: center; }
+  .kw-form-actions button.ghost {
+    background: transparent; border: 1px solid var(--border); color: var(--text);
+    border-radius: 100px; padding: 0.7rem 1.2rem; font-family: inherit; font-weight: 600; cursor: pointer;
+  }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; margin-top: 2rem; }
+  table.kw-table { border-collapse: collapse; width: 100%; min-width: 1100px; font-size: 0.85rem; }
+  table.kw-table th, table.kw-table td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.kw-table thead th { background: var(--surface-2); font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+  table.kw-table tbody tr:hover { background: var(--surface-2); }
+  .row-actions { display: flex; gap: 0.5rem; }
+  .row-actions button { background: none; border: none; color: var(--forest); cursor: pointer; font-size: 0.8rem; font-weight: 600; padding: 0; }
+  .row-actions button.danger { color: var(--error); }
+  .empty-state { color: var(--text-muted); padding: 2rem; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="research-shell">
+  <span class="eyebrow" style="font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--forest)">Internal &middot; not part of the public site</span>
+  <h1>Keyword research log</h1>
+  <p class="lede">Every field mirrors the Stage 4 template from the SEO course audit. Only enter values you actually looked up in a real tool or a real SERP &mdash; leave a field blank rather than guess. Nothing here is public: this page is noindexed and blocked in robots.txt. See also: the <a href="/content-gap">content gap log</a>.</p>
+
+  <form id="kw-form" class="card kw-form">
+    <input type="hidden" id="entry_id" value="">
+    <div class="field"><label for="keyword">Keyword *</label><input type="text" id="keyword" required></div>
+    <div class="field"><label for="parent_topic">Parent topic</label><input type="text" id="parent_topic"></div>
+    <div class="field"><label for="location">Location</label><input type="text" id="location" placeholder="e.g. Canada / British Columbia"></div>
+
+    <div class="field"><label for="search_volume">Search volume</label><input type="number" id="search_volume" min="0"></div>
+    <div class="field"><label for="volume_source">Volume source</label><input type="text" id="volume_source" placeholder="e.g. Keyword Planner, or 'Needs verification'"></div>
+    <div class="field"><label for="business_potential">Business potential (0&ndash;3)</label>
+      <select id="business_potential">
+        <option value="">&mdash;</option>
+        <option value="0">0 &mdash; irrelevant</option>
+        <option value="1">1 &mdash; relevant traffic only</option>
+        <option value="2">2 &mdash; easy product/CTA link-in</option>
+        <option value="3">3 &mdash; direct planning/booking action</option>
+      </select>
+    </div>
+
+    <div class="field wide"><label for="traffic_potential_notes">Traffic potential notes</label><input type="text" id="traffic_potential_notes" placeholder="What the top-ranking pages actually get, not just this keyword's volume"></div>
+
+    <div class="field"><label for="intent">Search intent</label>
+      <select id="intent">
+        <option value="">&mdash;</option>
+        <option>Informational</option>
+        <option>Navigational</option>
+        <option>Commercial investigation</option>
+        <option>Transactional</option>
+        <option>Local</option>
+      </select>
+    </div>
+    <div class="field"><label for="content_type">Content type</label><input type="text" id="content_type" placeholder="Blog post / video / category page / landing page"></div>
+    <div class="field"><label for="content_format">Content format</label><input type="text" id="content_format" placeholder="How-to / listicle / comparison / itinerary / tool"></div>
+    <div class="field"><label for="content_angle">Content angle</label><input type="text" id="content_angle" placeholder="Freshness / beginner / budget / local / without-a-car"></div>
+
+    <div class="field"><label for="ranking_difficulty">Ranking difficulty</label>
+      <select id="ranking_difficulty">
+        <option value="">&mdash;</option>
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+        <option>Very High</option>
+      </select>
+    </div>
+    <div class="field"><label for="recommended_action">Recommended action</label>
+      <select id="recommended_action">
+        <option value="">&mdash;</option>
+        <option value="TARGET_NOW">Target now</option>
+        <option value="TARGET_LATER">Target later</option>
+        <option value="SUPPORTING_CONTENT">Supporting content</option>
+        <option value="REJECT">Reject</option>
+      </select>
+    </div>
+
+    <div class="field wide"><label for="serp_observations">SERP observations</label><input type="text" id="serp_observations" placeholder="Who actually ranks, what content type/format wins, any weaknesses"></div>
+
+    <div class="kw-form-actions">
+      <button type="submit" class="primary" id="kw-submit" style="width:auto;">Add entry</button>
+      <button type="button" class="ghost" id="kw-cancel" style="display:none;">Cancel edit</button>
+    </div>
+  </form>
+
+  <div class="table-wrap">
+    <table class="kw-table" id="kw-table">
+      <thead>
+        <tr>
+          <th>Keyword</th><th>Parent topic</th><th>Location</th><th>Volume (source)</th>
+          <th>Traffic potential</th><th>Biz.</th><th>Intent</th><th>Type</th><th>Format</th>
+          <th>Angle</th><th>Difficulty</th><th>SERP notes</th><th>Action</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="kw-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="kw-empty" style="display:none;">No entries yet &mdash; add your first real keyword-research finding above.</div>
+  </div>
+</div>
+
+<script src="/research.js"></script>
+</body>
+</html>

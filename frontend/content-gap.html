@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content gap log - Book a Trip (internal)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .research-shell { max-width: 1300px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+  .research-shell h1 { font-size: 1.6rem; }
+  .research-shell .lede { color: var(--text-muted); max-width: 72ch; margin-bottom: 1rem; }
+  .method-note {
+    background: var(--surface-2); border: 1px solid var(--border); border-left: 3px solid var(--forest);
+    border-radius: 0 10px 10px 0; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin-bottom: 2rem;
+  }
+  .method-note strong { color: var(--forest); }
+  .kw-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .kw-form .field.wide { grid-column: 1 / -1; }
+  .kw-form .field.half { grid-column: span 2; }
+  @media (max-width: 860px) { .kw-form { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .kw-form { grid-template-columns: 1fr; } }
+  .kw-form-actions { grid-column: 1 / -1; display: flex; gap: 0.75rem; align-items: center; }
+  .kw-form-actions button.ghost {
+    background: transparent; border: 1px solid var(--border); color: var(--text);
+    border-radius: 100px; padding: 0.7rem 1.2rem; font-family: inherit; font-weight: 600; cursor: pointer;
+  }
+  .field label small { color: var(--text-muted); font-weight: 400; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; margin-top: 2rem; }
+  table.kw-table { border-collapse: collapse; width: 100%; min-width: 1300px; font-size: 0.85rem; }
+  table.kw-table th, table.kw-table td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.kw-table thead th { background: var(--surface-2); font-family: "IBM Plex Mono", monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+  table.kw-table tbody tr:hover { background: var(--surface-2); }
+  table.kw-table td.num { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+  .row-actions { display: flex; gap: 0.5rem; }
+  .row-actions button { background: none; border: none; color: var(--forest); cursor: pointer; font-size: 0.8rem; font-weight: 600; padding: 0; }
+  .row-actions button.danger { color: var(--error); }
+  .empty-state { color: var(--text-muted); padding: 2rem; text-align: center; }
+  .badge-yes { color: var(--forest); font-weight: 600; }
+  .badge-no { color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="research-shell">
+  <span class="eyebrow" style="font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--forest)">Internal &middot; not part of the public site</span>
+  <h1>Content gap log</h1>
+  <p class="lede">Mirrors Ahrefs' Content Gap tool from the on-page SEO lesson. Enter 2&ndash;3 real competitor URLs for a page, run them through the tool yourself, and log what it actually shows here &mdash; nothing on this page generates a number on its own. See also: the <a href="/research">keyword research log</a>.</p>
+  <div class="method-note">
+    <strong>The method, exactly as taught:</strong> feed in the 2&ndash;3 competitor URLs you selected for a page. A keyword is worth adding to your content plan if it shows up under the <strong>"2 targets" or "3 targets"</strong> intersection &mdash; meaning at least 2 of your competitors rank for it, and at least one of them ranks in the top 10. A keyword only 1 target ranks for is weaker evidence and generally not worth chasing on its own.
+  </div>
+
+  <form id="kw-form" class="card kw-form">
+    <input type="hidden" id="entry_id" value="">
+    <div class="field wide"><label for="project_page">Book a Trip page this analysis is for *</label><input type="text" id="project_page" placeholder="e.g. vancouver-to-nanaimo-ferry" required></div>
+
+    <div class="field"><label for="target1_url">Target 1 URL</label><input type="text" id="target1_url" placeholder="competitor 1"></div>
+    <div class="field"><label for="target2_url">Target 2 URL</label><input type="text" id="target2_url" placeholder="competitor 2"></div>
+    <div class="field"><label for="target3_url">Target 3 URL</label><input type="text" id="target3_url" placeholder="competitor 3 (optional)"></div>
+    <div class="field"><label for="intersections">Intersections</label>
+      <select id="intersections">
+        <option value="">&mdash;</option>
+        <option value="3 targets">3 targets</option>
+        <option value="2 targets">2 targets</option>
+        <option value="1 target">1 target (weak evidence)</option>
+      </select>
+    </div>
+
+    <div class="field wide"><label for="keyword">Keyword *</label><input type="text" id="keyword" required></div>
+
+    <div class="field"><label for="search_volume">Volume</label><input type="number" id="search_volume" min="0"></div>
+    <div class="field"><label for="kd">KD</label><input type="number" id="kd" min="0" max="100"></div>
+    <div class="field"><label for="cpc">CPC</label><input type="number" id="cpc" step="0.01" min="0"></div>
+    <div class="field"><label for="include_on_page">Include on page?</label>
+      <select id="include_on_page">
+        <option value="">&mdash;</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+      </select>
+    </div>
+
+    <div class="field"><label for="target1_position">Target 1 position</label><input type="number" id="target1_position" min="1"></div>
+    <div class="field"><label for="target2_position">Target 2 position</label><input type="number" id="target2_position" min="1"></div>
+    <div class="field"><label for="target3_position">Target 3 position</label><input type="number" id="target3_position" min="1"></div>
+
+    <div class="field wide"><label for="notes">Notes</label><input type="text" id="notes" placeholder="Why this keyword matters, or why it doesn't despite ranking"></div>
+
+    <div class="kw-form-actions">
+      <button type="submit" class="primary" id="kw-submit" style="width:auto;">Add entry</button>
+      <button type="button" class="ghost" id="kw-cancel" style="display:none;">Cancel edit</button>
+    </div>
+  </form>
+
+  <div class="table-wrap">
+    <table class="kw-table" id="kw-table">
+      <thead>
+        <tr>
+          <th>Page</th><th>Keyword</th><th>Volume</th><th>KD</th><th>CPC</th>
+          <th>T1 pos</th><th>T2 pos</th><th>T3 pos</th><th>Intersections</th>
+          <th>Include?</th><th>Notes</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="kw-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="kw-empty" style="display:none;">No entries yet &mdash; run the Content Gap tool on a page's competitor set and log real results above.</div>
+  </div>
+</div>
+
+<script src="/content-gap.js"></script>
+</body>
+</html>
