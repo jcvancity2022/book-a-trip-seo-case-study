@@ -22,9 +22,9 @@ bookings or payments are processed.**
 
 ## Pages built from validated research
 
-- **[/](/)** — homepage + trip-planning flow, two accessibly-priced tiers ($15 self-guided / $49 full session)
-- **[/destinations/british-columbia/weekend-trips-from-vancouver/](/destinations/british-columbia/weekend-trips-from-vancouver/)** — the first `TARGET NOW` keyword
-- **[/destinations/british-columbia/vancouver-to-nanaimo-ferry/](/destinations/british-columbia/vancouver-to-nanaimo-ferry/)** — primary keyword `vancouver to nanaimo ferry` (>1,000/mo, KD Easy, Canada): BC Ferries vs. Hullo comparison, the content gap no competitor filled
+- `/` — homepage + trip-planning flow, two accessibly-priced tiers ($15 self-guided / $49 full session)
+- `/destinations/british-columbia/weekend-trips-from-vancouver/` — the first `TARGET NOW` keyword
+- `/destinations/british-columbia/vancouver-to-nanaimo-ferry/` — primary keyword `vancouver to nanaimo ferry` (>1,000/mo, KD Easy, Canada): BC Ferries vs. Hullo comparison, the content gap no competitor filled
 
 ## Internal research tooling
 
