@@ -100,6 +100,31 @@ def init_db():
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        # Mirrors the Ahrefs link-building module's five-attribute scorecard
+        # (relevance, authority, anchor text, follow status, placement) and
+        # its prospecting -> vetting -> outreach process. Rows are only ever
+        # entered from a real page someone actually opened and read -- the
+        # authority_status field stays "Needs Ahrefs" rather than a guessed
+        # DR/UR number until a live Ahrefs session checks it.
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS link_prospects (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                project_page TEXT NOT NULL,
+                prospect_url TEXT NOT NULL,
+                domain TEXT,
+                channel TEXT CHECK (channel IN ('outreach', 'source', 'organic')),
+                relevance_note TEXT,
+                authority_status TEXT,
+                editorial_placement TEXT,
+                links_out INTEGER CHECK (links_out IN (0, 1)),
+                verdict TEXT CHECK (verdict IN ('top prospect', 'strong', 'medium', 'skip')),
+                status TEXT NOT NULL DEFAULT 'not contacted'
+                    CHECK (status IN ('not contacted', 'vetted', 'contacted', 'replied', 'linked', 'declined')),
+                notes TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
 
 
 def create_booking(traveler_name, email, destination, trip_date):
@@ -311,6 +336,77 @@ def update_content_gap_entry(entry_id, **fields):
 def delete_content_gap_entry(entry_id):
     with get_connection() as conn:
         conn.execute("DELETE FROM content_gap WHERE id = ?", (entry_id,))
+
+
+LINK_PROSPECT_FIELDS = [
+    "project_page", "prospect_url", "domain", "channel", "relevance_note",
+    "authority_status", "editorial_placement", "links_out", "verdict",
+    "status", "notes",
+]
+
+
+def create_link_prospect(**fields):
+    """Insert one link-prospect row. Returns the new row's id.
+
+    Only pass fields actually read off the real page -- leave authority_status
+    as "Needs Ahrefs" (or omit it) rather than guessing a DR/UR number.
+    """
+    if not fields.get("project_page"):
+        raise ValueError("project_page is required")
+    if not fields.get("prospect_url"):
+        raise ValueError("prospect_url is required")
+
+    columns = [f for f in LINK_PROSPECT_FIELDS if f in fields]
+    placeholders = ", ".join("?" for _ in columns)
+    values = [fields[c] for c in columns]
+
+    with get_connection() as conn:
+        cursor = conn.execute(
+            f"INSERT INTO link_prospects ({', '.join(columns)}) VALUES ({placeholders})",
+            values,
+        )
+        return cursor.lastrowid
+
+
+def get_link_prospects(project_page=None):
+    with get_connection() as conn:
+        if project_page:
+            rows = conn.execute(
+                "SELECT * FROM link_prospects WHERE project_page = ? ORDER BY created_at DESC",
+                (project_page,),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT * FROM link_prospects ORDER BY project_page, created_at DESC"
+            ).fetchall()
+        return [dict(row) for row in rows]
+
+
+def get_link_prospect(entry_id):
+    with get_connection() as conn:
+        row = conn.execute(
+            "SELECT * FROM link_prospects WHERE id = ?", (entry_id,)
+        ).fetchone()
+        return dict(row) if row else None
+
+
+def update_link_prospect(entry_id, **fields):
+    columns = [f for f in LINK_PROSPECT_FIELDS if f in fields]
+    if not columns:
+        return
+    assignments = ", ".join(f"{c} = ?" for c in columns)
+    values = [fields[c] for c in columns] + [entry_id]
+
+    with get_connection() as conn:
+        conn.execute(
+            f"UPDATE link_prospects SET {assignments}, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+            values,
+        )
+
+
+def delete_link_prospect(entry_id):
+    with get_connection() as conn:
+        conn.execute("DELETE FROM link_prospects WHERE id = ?", (entry_id,))
 
 
 if __name__ == "__main__":

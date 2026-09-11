@@ -66,6 +66,7 @@ def robots_txt():
         "Disallow: /api/",
         "Disallow: /research",
         "Disallow: /content-gap",
+        "Disallow: /link-prospects",
         "",
         f"Sitemap: {sitemap_url}",
     ]
@@ -177,6 +178,53 @@ def content_gap_entry(entry_id):
         k: v for k, v in data.items() if k in db.CONTENT_GAP_FIELDS
     })
     return jsonify(db.get_content_gap_entry(entry_id))
+
+
+@app.route("/link-prospects")
+def link_prospects_tool():
+    # Internal-only, same treatment as /research and /content-gap: no nav
+    # link, noindexed, blocked in robots.txt, no auth -- don't deploy
+    # publicly as-is.
+    return send_from_directory(FRONTEND_DIR, "link-prospects.html")
+
+
+@app.route("/api/link-prospects", methods=["GET", "POST"])
+def link_prospect_entries():
+    if request.method == "GET":
+        project_page = request.args.get("project_page")
+        return jsonify(db.get_link_prospects(project_page))
+
+    data = request.get_json(force=True) or {}
+    if not data.get("project_page", "").strip():
+        return jsonify({"error": "project_page is required"}), 400
+    if not data.get("prospect_url", "").strip():
+        return jsonify({"error": "prospect_url is required"}), 400
+    try:
+        entry_id = db.create_link_prospect(**{
+            k: v for k, v in data.items() if k in db.LINK_PROSPECT_FIELDS and v not in (None, "")
+        })
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    return jsonify(db.get_link_prospect(entry_id)), 201
+
+
+@app.route("/api/link-prospects/<int:entry_id>", methods=["GET", "PUT", "DELETE"])
+def link_prospect_entry(entry_id):
+    if request.method == "GET":
+        entry = db.get_link_prospect(entry_id)
+        if not entry:
+            return jsonify({"error": "Unknown entry"}), 404
+        return jsonify(entry)
+
+    if request.method == "DELETE":
+        db.delete_link_prospect(entry_id)
+        return jsonify({"deleted": entry_id})
+
+    data = request.get_json(force=True) or {}
+    db.update_link_prospect(entry_id, **{
+        k: v for k, v in data.items() if k in db.LINK_PROSPECT_FIELDS
+    })
+    return jsonify(db.get_link_prospect(entry_id))
 
 
 @app.route("/api/packages")

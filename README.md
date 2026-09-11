@@ -16,6 +16,7 @@ bookings or payments are processed.**
 | **Keyword research** | Seed keywords → modifier expansion → the five-point checklist (search demand, traffic potential, business potential, search intent, ranking difficulty), using real Ahrefs (Canada) volume/KD data |
 | **SERP analysis** | Live searches for every target keyword; competitor pages fetched and read in full, not summarised from snippets |
 | **Content-gap analysis** | Ahrefs Content Gap methodology (2–3 competitor targets, "2 targets / 3 targets" intersections) — implemented as a working internal tool at `/content-gap` |
+| **Link building** | Ahrefs five-attribute scorecard (relevance, authority, anchor text, follow status, placement) applied to five real BC travel/relocation pages, actually read and graded — implemented as a working internal tool at `/link-prospects` |
 | **On-page SEO** | Title tags, descriptive URL slugs, meta descriptions, H1–H3 structure, internal linking, `aria-hidden` on decorative SVGs (the site has no raster images), OG tags, `WebSite` / `Article` / `FAQPage` schema |
 | **Technical SEO** | `robots.txt`, dynamic `sitemap.xml`, canonical tags, a real `noindex` on the per-booking confirmation page, a proper 404 with the correct status code |
 | **Honest measurement** | No invented traffic, rankings, or Search Console numbers anywhere. Where a metric needs a paid tool, it's labelled "Needs verification" rather than guessed |
@@ -28,12 +29,13 @@ bookings or payments are processed.**
 
 ## Internal research tooling
 
-Two internal, noindexed, `robots.txt`-blocked tools back the research process:
+Three internal, noindexed, `robots.txt`-blocked tools back the research process:
 
 - **`/research`** — keyword-research worksheet mirroring the five-point checklist template
 - **`/content-gap`** — Content Gap log mirroring the Ahrefs tool's exact columns and intersections filter
+- **`/link-prospects`** — link-prospect log mirroring the link-building module's five-attribute scorecard; seeded with five real BC travel/relocation pages actually read and graded against it
 
-Both persist to an embedded SQLite database and only ever hold data entered from a real tool run.
+All three persist to an embedded SQLite database and only ever hold data entered from a real tool run or a page someone actually opened and read.
 
 ---
 

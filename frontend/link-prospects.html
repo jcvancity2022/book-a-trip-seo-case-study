@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Link prospect log - Book a Trip (internal)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .research-shell { max-width: 1300px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+  .research-shell h1 { font-size: 1.6rem; }
+  .research-shell .lede { color: var(--text-muted); max-width: 72ch; margin-bottom: 1rem; }
+  .method-note {
+    background: var(--surface-2); border: 1px solid var(--border); border-left: 3px solid var(--forest);
+    border-radius: 0 10px 10px 0; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin-bottom: 2rem;
+  }
+  .method-note strong { color: var(--forest); }
+  .kw-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .kw-form .field.wide { grid-column: 1 / -1; }
+  .kw-form .field.half { grid-column: span 2; }
+  @media (max-width: 860px) { .kw-form { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .kw-form { grid-template-columns: 1fr; } }
+  .kw-form-actions { grid-column: 1 / -1; display: flex; gap: 0.75rem; align-items: center; }
+  .kw-form-actions button.ghost {
+    background: transparent; border: 1px solid var(--border); color: var(--text);
+    border-radius: 100px; padding: 0.7rem 1.2rem; font-family: inherit; font-weight: 600; cursor: pointer;
+  }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; margin-top: 2rem; }
+  table.kw-table { border-collapse: collapse; width: 100%; min-width: 1400px; font-size: 0.85rem; }
+  table.kw-table th, table.kw-table td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.kw-table thead th { background: var(--surface-2); font-family: "IBM Plex Mono", monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+  table.kw-table tbody tr:hover { background: var(--surface-2); }
+  .row-actions { display: flex; gap: 0.5rem; }
+  .row-actions button { background: none; border: none; color: var(--forest); cursor: pointer; font-size: 0.8rem; font-weight: 600; padding: 0; }
+  .row-actions button.danger { color: var(--error); }
+  .empty-state { color: var(--text-muted); padding: 2rem; text-align: center; }
+  .badge-yes { color: var(--forest); font-weight: 600; }
+  .badge-no { color: var(--text-muted); }
+  .verdict-top, .verdict-strong { color: var(--forest); font-weight: 600; }
+  .verdict-medium { color: var(--text-muted); }
+  .verdict-skip { color: var(--error); }
+  .status-pill {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.04em; padding: 0.15em 0.5em; border-radius: 4px; background: var(--surface-2);
+    color: var(--text-muted); white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<div class="research-shell">
+  <span class="eyebrow" style="font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--forest)">Internal &middot; not part of the public site</span>
+  <h1>Link prospect log</h1>
+  <p class="lede">Mirrors the Ahrefs link-building module's five-attribute scorecard (relevance, authority, anchor text, follow status, placement) and its prospecting &rarr; vetting &rarr; outreach process. Rows are only ever added from a page someone actually opened and read &mdash; the authority field stays "Needs Ahrefs" until a live Ahrefs session checks DR/UR. See also: the <a href="/research">keyword research log</a> and the <a href="/content-gap">content gap log</a>.</p>
+  <div class="method-note">
+    <strong>The scorecard, applied here:</strong> relevance and a real editorial spot come first &mdash; a high-authority page with nowhere honest to place the link is still a <strong>skip</strong>. Authority (Domain Rating / URL Rating) is a tiebreaker between relevant options, not the entry test, and is left blank until it's actually checked in Ahrefs. <code>links_out</code> records whether the site hyperlinks to anything external at all &mdash; a relevant page that never links out is also a skip, regardless of authority.
+  </div>
+
+  <form id="kw-form" class="card kw-form">
+    <input type="hidden" id="entry_id" value="">
+    <div class="field wide"><label for="project_page">Book a Trip page this prospect is for *</label><input type="text" id="project_page" placeholder="e.g. vancouver-to-nanaimo-ferry" required></div>
+
+    <div class="field wide"><label for="prospect_url">Prospect URL *</label><input type="text" id="prospect_url" required></div>
+    <div class="field"><label for="domain">Domain</label><input type="text" id="domain" placeholder="e.g. tourismnanaimo.com"></div>
+    <div class="field"><label for="channel">Channel</label>
+      <select id="channel">
+        <option value="">&mdash;</option>
+        <option value="outreach">Outreach</option>
+        <option value="source">Become a source</option>
+        <option value="organic">Organic</option>
+      </select>
+    </div>
+    <div class="field"><label for="links_out">Links out at all?</label>
+      <select id="links_out">
+        <option value="">&mdash;</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+      </select>
+    </div>
+    <div class="field"><label for="verdict">Verdict</label>
+      <select id="verdict">
+        <option value="">&mdash;</option>
+        <option value="top prospect">Top prospect</option>
+        <option value="strong">Strong</option>
+        <option value="medium">Medium</option>
+        <option value="skip">Skip</option>
+      </select>
+    </div>
+
+    <div class="field wide"><label for="relevance_note">Relevance</label><input type="text" id="relevance_note" placeholder="Why this page is (or isn't) topically relevant"></div>
+    <div class="field wide"><label for="editorial_placement">Real spot for the link</label><input type="text" id="editorial_placement" placeholder="The actual section on the page where the link would help readers"></div>
+    <div class="field half"><label for="authority_status">Authority</label><input type="text" id="authority_status" placeholder="Needs Ahrefs (default) or DR/UR once checked"></div>
+    <div class="field half"><label for="status">Status</label>
+      <select id="status">
+        <option value="not contacted">Not contacted</option>
+        <option value="vetted">Vetted</option>
+        <option value="contacted">Contacted</option>
+        <option value="replied">Replied</option>
+        <option value="linked">Linked</option>
+        <option value="declined">Declined</option>
+      </select>
+    </div>
+
+    <div class="field wide"><label for="notes">Notes</label><input type="text" id="notes" placeholder="Anything else observed when reading the page"></div>
+
+    <div class="kw-form-actions">
+      <button type="submit" class="primary" id="kw-submit" style="width:auto;">Add entry</button>
+      <button type="button" class="ghost" id="kw-cancel" style="display:none;">Cancel edit</button>
+    </div>
+  </form>
+
+  <div class="table-wrap">
+    <table class="kw-table" id="kw-table">
+      <thead>
+        <tr>
+          <th>Page</th><th>Prospect</th><th>Channel</th><th>Relevance</th>
+          <th>Authority</th><th>Real spot</th><th>Links out?</th>
+          <th>Verdict</th><th>Status</th><th>Notes</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="kw-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="kw-empty" style="display:none;">No entries yet &mdash; read a real prospect page and log what it actually shows above.</div>
+  </div>
+</div>
+
+<script src="/link-prospects.js"></script>
+</body>
+</html>
