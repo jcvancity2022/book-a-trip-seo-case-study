@@ -1,8 +1,10 @@
-// This is the Pages static build's copy of script.js. Destination-card
-// selection is the same client-side logic as the real app. The booking
-// form intentionally does NOT call /api/... -- there's no backend on
-// GitHub Pages, so it shows an honest message instead of failing silently
-// or faking a result. The real flow lives in the Flask app (see README).
+// This is the Pages static build's copy of script.js. Destination cards on
+// /destinations/ are plain links to /plan-a-trip/?destination=... now (each
+// is its own page), so this only reads that query param to pre-select the
+// dropdown. The booking form intentionally does NOT call /api/... -- there's
+// no backend on GitHub Pages, so it shows an honest message instead of
+// failing silently or faking a result. The real flow lives in the Flask app
+// (see README).
 
 function showError(message, tone) {
   const box = document.getElementById("error-box");
@@ -11,28 +13,13 @@ function showError(message, tone) {
   box.className = "error-box show" + (tone === "info" ? " info" : "");
 }
 
-// --- destination card selection (index page) ---
+// --- destination prefill on the plan-a-trip page ---
 const destSelect = document.getElementById("destination");
-const destCards = document.querySelectorAll(".dest-card");
-
-function selectDestination(value) {
-  if (destSelect) destSelect.value = value;
-  destCards.forEach((card) => {
-    card.classList.toggle("selected", card.dataset.destination === value);
-  });
-}
-
-destCards.forEach((card) => {
-  card.addEventListener("click", () => {
-    selectDestination(card.dataset.destination);
-    const plan = document.getElementById("plan");
-    if (plan) plan.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-});
-
 if (destSelect) {
-  selectDestination(destSelect.value);
-  destSelect.addEventListener("change", () => selectDestination(destSelect.value));
+  const requested = new URLSearchParams(window.location.search).get("destination");
+  if (requested && [...destSelect.options].some((o) => o.value === requested)) {
+    destSelect.value = requested;
+  }
 }
 
 // --- booking form: honest boundary on the static Pages build ---
