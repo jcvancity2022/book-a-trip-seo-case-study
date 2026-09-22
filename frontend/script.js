@@ -5,30 +5,17 @@ function showError(message) {
   box.classList.add("show");
 }
 
-// --- destination card selection (index page) ---
+// --- destination prefill on the plan-a-trip page ---
+// /destinations/ is its own page now, not a section on the same page as the
+// booking form, so a destination card there is a plain link to
+// /plan-a-trip/?destination=... rather than a same-page JS selection. This
+// just reads that query param, if present, and pre-selects it.
 const destSelect = document.getElementById("destination");
-const packageLabel = document.getElementById("package-label");
-const destCards = document.querySelectorAll(".dest-card");
-
-function selectDestination(value) {
-  if (destSelect) destSelect.value = value;
-  if (packageLabel) packageLabel.textContent = `${value.replace(", BC", "")} — planning session`;
-  destCards.forEach((card) => {
-    card.classList.toggle("selected", card.dataset.destination === value);
-  });
-}
-
-destCards.forEach((card) => {
-  card.addEventListener("click", () => {
-    selectDestination(card.dataset.destination);
-    const plan = document.getElementById("plan");
-    if (plan) plan.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-});
-
 if (destSelect) {
-  selectDestination(destSelect.value);
-  destSelect.addEventListener("change", () => selectDestination(destSelect.value));
+  const requested = new URLSearchParams(window.location.search).get("destination");
+  if (requested && [...destSelect.options].some((o) => o.value === requested)) {
+    destSelect.value = requested;
+  }
 }
 
 // --- booking form submit ---
