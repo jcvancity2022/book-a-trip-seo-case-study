@@ -60,7 +60,17 @@ def create_checkout_session(booking_id, amount, currency, description,
 
 
 def verify_webhook(payload, sig_header):
-    """Verify + parse a Stripe webhook event. Returns None outside live mode."""
+    """Verify + parse a Stripe webhook event.
+
+    Returns None if webhooks aren't configured, the payload is malformed,
+    or the signature doesn't check out -- callers treat None as "reject
+    this request" rather than trusting an unverified body. Without this,
+    a bad/missing signature raises inside construct_event and an
+    unhandled exception 500s the route instead of cleanly rejecting it.
+    """
     if not LIVE_MODE or not STRIPE_WEBHOOK_SECRET:
         return None
-    return _stripe.Webhook.construct_event(payload, sig_header, STRIPE_WEBHOOK_SECRET)
+    try:
+        return _stripe.Webhook.construct_event(payload, sig_header, STRIPE_WEBHOOK_SECRET)
+    except (ValueError, _stripe.error.SignatureVerificationError):
+        return None
