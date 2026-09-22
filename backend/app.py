@@ -51,6 +51,21 @@ def home():
     return send_from_directory(FRONTEND_DIR, "index.html")
 
 
+@app.route("/destinations/")
+def destinations():
+    return send_from_directory(FRONTEND_DIR, "destinations.html")
+
+
+@app.route("/plan-a-trip/")
+def plan_a_trip():
+    return send_from_directory(FRONTEND_DIR, "plan-a-trip.html")
+
+
+@app.route("/why-us/")
+def why_us():
+    return send_from_directory(FRONTEND_DIR, "why-us.html")
+
+
 @app.route("/confirmation")
 def confirmation():
     return send_from_directory(FRONTEND_DIR, "confirmation.html")
@@ -97,6 +112,9 @@ def sitemap_xml():
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
         f"  <url><loc>{base}/</loc></url>",
+        f"  <url><loc>{base}/destinations/</loc></url>",
+        f"  <url><loc>{base}/plan-a-trip/</loc></url>",
+        f"  <url><loc>{base}/why-us/</loc></url>",
         f"  <url><loc>{base}/destinations/british-columbia/weekend-trips-from-vancouver/</loc></url>",
         f"  <url><loc>{base}/destinations/british-columbia/vancouver-to-nanaimo-ferry/</loc></url>",
         f"  <url><loc>{base}/destinations/british-columbia/vancouver-to-victoria-ferry/</loc></url>",
