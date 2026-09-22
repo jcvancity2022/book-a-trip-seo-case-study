@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan a British Columbia Trip</title>
+<meta name="description" content="Book a British Columbia trip-planning session -- self-guided checklist or a full session, starting at $15 CAD. Stripe-ready checkout, running in demo mode.">
+<link rel="canonical" href="/plan-a-trip/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Book a Trip">
+<meta property="og:title" content="Plan a British Columbia Trip">
+<meta property="og:description" content="Book a trip-planning session -- self-guided checklist or a full session, starting at $15 CAD.">
+<meta property="og:url" content="/plan-a-trip/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Plan a British Columbia Trip",
+  "description": "Book a British Columbia trip-planning session -- self-guided checklist or a full session, starting at $15 CAD.",
+  "url": "/plan-a-trip/"
+}
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .page-shell { max-width: 1120px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+  .breadcrumb { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .breadcrumb a { color: var(--text-muted); }
+  .page-shell h1 { font-size: clamp(1.9rem, 3.8vw, 2.6rem); max-width: 24ch; }
+  .page-shell .lede { color: var(--text-muted); font-size: 1.05rem; max-width: 62ch; margin-bottom: 2.2rem; }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="inner">
+    <a class="logo" href="/">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M2 16.5 21 8l-3.5 9.5L12 15l-3 6-2-4.5L2 16.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      Book a Trip
+    </a>
+    <ul class="nav-links">
+      <li><a href="/destinations/">Destinations</a></li>
+      <li><a href="/plan-a-trip/">Plan a Trip</a></li>
+      <li><a href="/why-us/">Why Us</a></li>
+    </ul>
+    <a class="nav-cta" href="/plan-a-trip/">Start Planning</a>
+  </div>
+</header>
+
+<main class="page-shell">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Plan a Trip</nav>
+
+  <span class="hero-badge">SEO portfolio project &middot; not a licensed travel agency</span>
+  <h1>Plan your trip</h1>
+  <p class="lede">Tell us about your traveler and dates. Payment runs through a Stripe-ready checkout in demo mode &mdash; no card details are collected on this page.</p>
+
+  <div class="layout">
+    <div class="card">
+      <h3>Traveler details</h3>
+      <form id="booking-form">
+        <div class="field">
+          <label for="traveler_name">Full name</label>
+          <input type="text" id="traveler_name" name="traveler_name" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="destination">Destination</label>
+          <select id="destination" name="destination" required>
+            <option value="Vancouver, BC">Vancouver, BC</option>
+            <option value="Victoria, BC">Victoria, BC</option>
+            <option value="Whistler, BC">Whistler, BC</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="trip_date">Trip date</label>
+          <input type="date" id="trip_date" name="trip_date" required>
+        </div>
+        <button type="submit" class="primary" id="submit-btn">Continue to payment</button>
+        <div class="error-box" id="error-box"></div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>Trip planning package</h3>
+      <p style="color:var(--text-muted);font-size:0.88rem;margin-top:-0.4rem;">Two ways to get help, priced so cost isn't what stops you from planning.</p>
+
+      <label class="package-option">
+        <input type="radio" name="package" value="self_guided" checked>
+        <span class="package-option-body">
+          <span class="package-option-title">Self-guided checklist</span>
+          <span class="package-option-desc">The practical logistics &mdash; ferries, timing, cost &mdash; without a live session.</span>
+        </span>
+        <span class="package-option-price">$15.00</span>
+      </label>
+
+      <label class="package-option">
+        <input type="radio" name="package" value="full_session">
+        <span class="package-option-body">
+          <span class="package-option-title">Full planning session</span>
+          <span class="package-option-desc">Everything in the checklist, plus personalized planning help.</span>
+        </span>
+        <span class="package-option-price">$49.00</span>
+      </label>
+
+      <div class="package-row">
+        <span class="label">Currency</span>
+        <span>CAD</span>
+      </div>
+      <div class="notice">
+        Payment processing is <strong>prepared for Stripe</strong> but runs in demo mode
+        until a real payment provider is connected.
+      </div>
+    </div>
+  </div>
+
+  <p class="spaced">Not sure yet? <a href="/destinations/">Compare the three destinations</a> or see <a href="/why-us/">why this planning flow works the way it does</a>.</p>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-bottom">Book a Trip &mdash; SEO portfolio project. Not a licensed travel agency.</div>
+</footer>
+
+<script src="/script.js"></script>
+</body>
+</html>
