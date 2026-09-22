@@ -23,9 +23,18 @@ bookings or payments are processed.**
 
 ## Pages built from validated research
 
-- `/` — homepage + trip-planning flow, two accessibly-priced tiers ($15 self-guided / $49 full session)
+- `/` — homepage: hero + trust bar, linking out to the three pages below (each indexable on its own, not just anchors on `/`)
+- `/destinations/` — the three BC destinations (Vancouver, Victoria, Whistler), each linking to its own guide
+- `/plan-a-trip/` — the booking flow: traveler details, two accessibly-priced tiers ($15 self-guided / $49 full session)
+- `/why-us/` — what's actually behind the planning flow (database, payment path, the honesty rule)
 - `/destinations/british-columbia/weekend-trips-from-vancouver/` — the first `TARGET NOW` keyword
 - `/destinations/british-columbia/vancouver-to-nanaimo-ferry/` — primary keyword `vancouver to nanaimo ferry` (>1,000/mo, KD Easy, Canada): BC Ferries vs. Hullo comparison, the content gap no competitor filled
+- `/destinations/british-columbia/vancouver-to-victoria-ferry/` — `vancouver to victoria ferry` (Google Autocomplete's #1 suggestion for the seed): BC Ferries direct vs. the Connector bus, the car-free TransLink route neither competitor names
+
+Destinations, Plan a Trip, and Why Us used to be same-page anchor sections on `/` — split
+into real URLs so each is something Search Console can actually index and report on
+individually, and so a destination card can link straight to its own guide instead of just
+scrolling the homepage.
 
 ## Internal research tooling
 
