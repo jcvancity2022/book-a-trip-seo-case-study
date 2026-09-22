@@ -9,6 +9,7 @@ are configured.
 
 import os
 from flask import Flask, request, jsonify, send_from_directory, Response
+from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
 
 import database as db
@@ -19,6 +20,14 @@ load_dotenv(dotenv_path=os.path.join(os.path.dirname(os.path.abspath(__file__)),
 FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend")
 
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
+
+# Render (and most PaaS hosts) terminate TLS and proxy plain HTTP to the
+# app, one hop away. Without this, request.host_url reports http:// and
+# the wrong host, which leaks into the Stripe success/cancel URLs below --
+# trusting exactly one proxy hop (x_for/x_proto/x_host=1) is the safe
+# setting for that single-hop setup, not a blanket "trust any forwarded
+# header" config.
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 db.init_db()
 
@@ -265,14 +274,23 @@ def start_checkout():
     success_url = request.host_url.rstrip("/") + "/confirmation"
     cancel_url = request.host_url.rstrip("/") + "/"
 
-    session = payments.create_checkout_session(
-        booking_id=booking_id,
-        amount=package["amount"],
-        currency=package["currency"],
-        description=package["description"],
-        success_url=success_url,
-        cancel_url=cancel_url,
-    )
+    # The processor call is the one part of this request that leaves the
+    # process (a real network call to Stripe in live mode) -- catch it
+    # explicitly so a Stripe-side failure returns a clean error instead of
+    # an unhandled 500, and so we never fall through to record_payment
+    # below with no session to reference.
+    try:
+        session = payments.create_checkout_session(
+            booking_id=booking_id,
+            amount=package["amount"],
+            currency=package["currency"],
+            description=package["description"],
+            success_url=success_url,
+            cancel_url=cancel_url,
+        )
+    except Exception:
+        app.logger.exception("Checkout session creation failed for booking %s", booking_id)
+        return jsonify({"error": "Could not start checkout -- please try again"}), 502
 
     db.record_payment(
         booking_id=booking_id,
@@ -337,4 +355,9 @@ def not_found(_error):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5090)
+    # PORT is set by hosts like Render; debug defaults OFF so a deployed
+    # instance never ships with Werkzeug's debugger/reloader exposed --
+    # set FLASK_DEBUG=1 locally if you want it back.
+    port = int(os.environ.get("PORT", 5090))
+    debug = os.environ.get("FLASK_DEBUG") == "1"
+    app.run(host="0.0.0.0", debug=debug, port=port)
