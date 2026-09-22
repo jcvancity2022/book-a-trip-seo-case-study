@@ -221,6 +221,18 @@ section.block { max-width: 1120px; margin: 0 auto; padding: 3.5rem 1.5rem; }
 .dest-card .select-hint { color: var(--sun-dark); font-weight: 600; }
 .dest-card.selected .select-hint::before { content: "✓ "; }
 
+.dest-card-link {
+  display: block;
+  margin-top: 0.6rem;
+  padding: 0.1rem 0.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--forest);
+  text-decoration: none;
+}
+.dest-card-link:hover { text-decoration: underline; }
+.dest-card-link:focus-visible { outline: 2px solid var(--forest); outline-offset: 2px; border-radius: 4px; }
+
 /* ---------------- planner ---------------- */
 .planner { background: var(--surface-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .layout {
