@@ -86,6 +86,11 @@ def vancouver_to_victoria_ferry():
     return send_from_directory(FRONTEND_DIR, "vancouver-to-victoria-ferry.html")
 
 
+@app.route("/destinations/british-columbia/bc-ferries-discounts/")
+def bc_ferries_discounts():
+    return send_from_directory(FRONTEND_DIR, "bc-ferries-discounts.html")
+
+
 @app.route("/robots.txt")
 def robots_txt():
     sitemap_url = request.host_url.rstrip("/") + "/sitemap.xml"
@@ -118,6 +123,7 @@ def sitemap_xml():
         f"  <url><loc>{base}/destinations/british-columbia/weekend-trips-from-vancouver/</loc></url>",
         f"  <url><loc>{base}/destinations/british-columbia/vancouver-to-nanaimo-ferry/</loc></url>",
         f"  <url><loc>{base}/destinations/british-columbia/vancouver-to-victoria-ferry/</loc></url>",
+        f"  <url><loc>{base}/destinations/british-columbia/bc-ferries-discounts/</loc></url>",
         "</urlset>",
     ]
     return Response("\n".join(xml), mimetype="application/xml")
