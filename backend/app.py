@@ -33,13 +33,13 @@ db.init_db()
 
 TRIP_PACKAGES = {
     "self_guided": {
-        "description": "Self-Guided Trip Checklist - British Columbia",
+        "description": "BC Ferry Sailing Checklist",
         "amount": 15.00,
         "currency": "CAD",
     },
     "full_session": {
-        "description": "Full Planning Session - British Columbia",
-        "amount": 49.00,
+        "description": "Custom BC Ferry Trip Plan",
+        "amount": 79.00,
         "currency": "CAD",
     },
 }
