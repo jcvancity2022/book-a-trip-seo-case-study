@@ -1,28 +1,67 @@
-function showError(message) {
+function showError(message, tone) {
   const box = document.getElementById("error-box");
   if (!box) return;
   box.textContent = message;
-  box.classList.add("show");
+  box.className = "error-box show" + (tone === "info" ? " info" : "");
 }
 
-// --- destination prefill on the plan-a-trip page ---
-// /destinations/ is its own page now, not a section on the same page as the
-// booking form, so a destination card there is a plain link to
-// /plan-a-trip/?destination=... rather than a same-page JS selection. This
-// just reads that query param, if present, and pre-selects it.
-const destSelect = document.getElementById("destination");
-if (destSelect) {
-  const requested = new URLSearchParams(window.location.search).get("destination");
-  if (requested && [...destSelect.options].some((o) => o.value === requested)) {
-    destSelect.value = requested;
-  }
-}
-
-// --- booking form submit ---
+// --- booking page: prefill, live order summary, submit ---
 const bookingForm = document.getElementById("booking-form");
 if (bookingForm) {
+  const params = new URLSearchParams(window.location.search);
+  const money = (n) => "$" + Number(n).toFixed(2);
+  const checked = (name) => bookingForm.querySelector('input[name="' + name + '"]:checked');
+
+  const requestedDest = params.get("destination");
+  if (requestedDest) {
+    const match = [...bookingForm.querySelectorAll('input[name="destination"]')].find((i) => i.value === requestedDest);
+    if (match) match.checked = true;
+  }
+  const requestedPkg = params.get("package");
+  if (requestedPkg) {
+    const match = [...bookingForm.querySelectorAll('input[name="package"]')].find((i) => i.value === requestedPkg);
+    if (match) match.checked = true;
+  }
+
+  const dateInput = document.getElementById("trip_date");
+  const today = new Date();
+  dateInput.min = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
+
+  function updateSummary() {
+    const dest = checked("destination");
+    const pkg = checked("package");
+    const price = pkg ? Number(pkg.dataset.price) : 0;
+    document.getElementById("sum-destination").textContent = dest ? dest.value : "";
+    document.getElementById("sum-plan").textContent = pkg ? pkg.dataset.label : "";
+    document.getElementById("sum-date").textContent = dateInput.value || "Not chosen yet";
+    document.getElementById("sum-total").textContent = money(price) + " CAD";
+    document.getElementById("submit-btn").textContent = "Pay " + money(price) + " CAD";
+  }
+  bookingForm.addEventListener("change", updateSummary);
+  updateSummary();
+
+  // Keep displayed prices in sync with the server, which is the source of truth.
+  if (!window.BAT_STATIC) {
+    fetch("/api/packages").then((r) => r.json()).then((pkgs) => {
+      Object.entries(pkgs).forEach(([key, p]) => {
+        const input = bookingForm.querySelector('input[name="package"][value="' + key + '"]');
+        const label = bookingForm.querySelector('[data-price-for="' + key + '"]');
+        if (input) input.dataset.price = p.amount;
+        if (label) label.textContent = money(p.amount);
+      });
+      updateSummary();
+    }).catch(() => {});
+  }
+
   bookingForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (window.BAT_STATIC) {
+      showError(
+        "This is the static GitHub Pages build -- the booking flow, SQLite record, and Stripe-ready checkout only run in the real Flask app. Run it locally or deploy it (see the README) to try the working version.",
+        "info"
+      );
+      return;
+    }
     const btn = document.getElementById("submit-btn");
     btn.disabled = true;
     btn.textContent = "Working...";
@@ -30,8 +69,8 @@ if (bookingForm) {
     const payload = {
       traveler_name: document.getElementById("traveler_name").value.trim(),
       email: document.getElementById("email").value.trim(),
-      destination: document.getElementById("destination").value,
-      trip_date: document.getElementById("trip_date").value,
+      destination: checked("destination").value,
+      trip_date: dateInput.value,
     };
 
     try {
@@ -43,7 +82,7 @@ if (bookingForm) {
       const booking = await bookingRes.json();
       if (!bookingRes.ok) throw new Error(booking.error || "Could not save booking");
 
-      const packageInput = document.querySelector('input[name="package"]:checked');
+      const packageInput = checked("package");
       const checkoutRes = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -59,7 +98,7 @@ if (bookingForm) {
     } catch (err) {
       showError(err.message);
       btn.disabled = false;
-      btn.textContent = "Continue to payment";
+      updateSummary();
     }
   });
 }
