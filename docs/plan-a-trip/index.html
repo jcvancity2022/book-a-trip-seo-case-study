@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Plan a British Columbia Trip</title>
-<meta name="description" content="Book a British Columbia trip-planning session -- self-guided checklist or a full session, starting at $15 CAD. Stripe-ready checkout, running in demo mode.">
+<title>Book a BC Ferry Trip Plan</title>
+<meta name="description" content="Book a BC ferry trip plan in one page: a $15 sailing checklist or a $79 custom plan, no account needed. Checkout runs in demo mode.">
 <link rel="canonical" href="https://jcvancity2022.github.io/book-a-trip-seo-case-study/plan-a-trip/">
 <link rel="icon" type="image/svg+xml" href="/book-a-trip-seo-case-study/favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Book a Trip">
-<meta property="og:title" content="Plan a British Columbia Trip">
-<meta property="og:description" content="Book a trip-planning session -- self-guided checklist or a full session, starting at $15 CAD.">
+<meta property="og:title" content="Book a BC Ferry Trip Plan">
+<meta property="og:description" content="Book a BC ferry trip plan: $15 sailing checklist or $79 custom plan, no account needed.">
 <meta property="og:url" content="https://jcvancity2022.github.io/book-a-trip-seo-case-study/plan-a-trip/">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "Plan a British Columbia Trip",
-  "description": "Book a British Columbia trip-planning session -- self-guided checklist or a full session, starting at $15 CAD.",
+  "name": "Book a BC Ferry Trip Plan",
+  "description": "Book a BC ferry trip plan: $15 sailing checklist or $79 custom plan, no account needed.",
   "url": "https://jcvancity2022.github.io/book-a-trip-seo-case-study/plan-a-trip/"
 }
 </script>
@@ -52,78 +52,93 @@
   <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/book-a-trip-seo-case-study/">Home</a> &rsaquo; Plan a Trip</nav>
 
   <span class="hero-badge">SEO portfolio project &middot; not a licensed travel agency</span>
-  <h1>Plan your trip</h1>
-  <p class="lede">Tell us about your traveler and dates. Payment runs through a Stripe-ready checkout in demo mode &mdash; no card details are collected on this page.</p>
+  <h1>Book your BC ferry trip plan</h1>
+  <p class="lede">Three quick choices, one payment, no account. The total is always on screen before you pay.</p>
 
-  <div class="layout">
-    <div class="card">
-      <h3>Traveler details</h3>
-      <form id="booking-form">
-        <div class="field">
-          <label for="traveler_name">Full name</label>
-          <input type="text" id="traveler_name" name="traveler_name" required autocomplete="name">
+  <form id="booking-form" class="book-layout">
+    <div class="book-steps">
+
+      <fieldset class="step">
+        <legend><span class="step-n">1</span> Where are you headed?</legend>
+        <div class="choice-grid">
+          <label class="choice"><input type="radio" name="destination" value="Victoria, BC" checked><span class="choice-body"><strong>Victoria</strong><small>Ferry via Tsawwassen</small></span></label>
+          <label class="choice"><input type="radio" name="destination" value="Nanaimo, BC"><span class="choice-body"><strong>Nanaimo</strong><small>Ferry via Horseshoe Bay</small></span></label>
+          <label class="choice"><input type="radio" name="destination" value="Whistler, BC"><span class="choice-body"><strong>Whistler</strong><small>Sea to Sky Highway, no ferry</small></span></label>
+          <label class="choice"><input type="radio" name="destination" value="Vancouver, BC"><span class="choice-body"><strong>Vancouver</strong><small>Base city and terminals</small></span></label>
         </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required autocomplete="email">
+      </fieldset>
+
+      <fieldset class="step">
+        <legend><span class="step-n">2</span> Pick your plan</legend>
+        <label class="package-option">
+          <input type="radio" name="package" value="self_guided" data-price="15" data-label="Sailing checklist" checked>
+          <span class="package-option-body">
+            <span class="package-option-title">Sailing checklist</span>
+            <span class="package-option-desc">Your route's ferry logistics on one page: getting to the terminal, which fare to book, timing, and cost.</span>
+            <span class="package-option-when">Delivered by email after payment</span>
+          </span>
+          <span class="package-option-price" data-price-for="self_guided">$15.00</span>
+        </label>
+        <label class="package-option">
+          <input type="radio" name="package" value="full_session" data-price="79" data-label="Custom trip plan">
+          <span class="package-option-body">
+            <span class="package-option-title">Custom trip plan</span>
+            <span class="package-option-desc">Everything in the checklist, plus a day-by-day plan built around your sailing and dates, with one free revision.</span>
+            <span class="package-option-when">Delivered by email within 3 business days</span>
+          </span>
+          <span class="package-option-price" data-price-for="full_session">$79.00</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="step">
+        <legend><span class="step-n">3</span> Where should we send it?</legend>
+        <div class="field-row">
+          <div class="field">
+            <label for="traveler_name">Full name</label>
+            <input type="text" id="traveler_name" name="traveler_name" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
         </div>
-        <div class="field">
-          <label for="destination">Destination</label>
-          <select id="destination" name="destination" required>
-            <option value="Vancouver, BC">Vancouver, BC</option>
-            <option value="Victoria, BC">Victoria, BC</option>
-            <option value="Whistler, BC">Whistler, BC</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="trip_date">Trip date</label>
+        <div class="field" style="margin-bottom:0">
+          <label for="trip_date">Travel date</label>
           <input type="date" id="trip_date" name="trip_date" required>
         </div>
-        <button type="submit" class="primary" id="submit-btn">Continue to payment</button>
-        <div class="error-box" id="error-box"></div>
-      </form>
+      </fieldset>
+
     </div>
 
-    <div class="card">
-      <h3>Trip planning package</h3>
-      <p style="color:var(--text-muted);font-size:0.88rem;margin-top:-0.4rem;">Two ways to get help, priced so cost isn't what stops you from planning.</p>
-
-      <label class="package-option">
-        <input type="radio" name="package" value="self_guided" checked>
-        <span class="package-option-body">
-          <span class="package-option-title">Self-guided checklist</span>
-          <span class="package-option-desc">The practical logistics &mdash; ferries, timing, cost &mdash; without a live session.</span>
-        </span>
-        <span class="package-option-price">$15.00</span>
-      </label>
-
-      <label class="package-option">
-        <input type="radio" name="package" value="full_session">
-        <span class="package-option-body">
-          <span class="package-option-title">Full planning session</span>
-          <span class="package-option-desc">Everything in the checklist, plus personalized planning help.</span>
-        </span>
-        <span class="package-option-price">$49.00</span>
-      </label>
-
-      <div class="package-row">
-        <span class="label">Currency</span>
-        <span>CAD</span>
+    <aside class="book-summary" aria-label="Order summary">
+      <div class="card">
+        <h3>Your order</h3>
+        <div class="sum-row"><span class="k">Destination</span><span class="v" id="sum-destination">Victoria, BC</span></div>
+        <div class="sum-row"><span class="k">Plan</span><span class="v" id="sum-plan">Sailing checklist</span></div>
+        <div class="sum-row"><span class="k">Travel date</span><span class="v" id="sum-date">Not chosen yet</span></div>
+        <div class="sum-total"><span class="k">Total</span><span class="v" id="sum-total">$15.00 CAD</span></div>
+        <button type="submit" class="primary" id="submit-btn">Pay $15.00 CAD</button>
+        <div class="error-box" id="error-box" role="alert"></div>
+        <ul class="trust-line">
+          <li>No account needed</li>
+          <li>Price shown before you pay</li>
+          <li>Prices in CAD</li>
+        </ul>
+        <div class="notice">
+          <strong>Demo mode:</strong> checkout is prepared for Stripe but no card is charged and no plan is delivered until a real payment provider is connected.
+        </div>
       </div>
-      <div class="notice">
-        Payment processing is <strong>prepared for Stripe</strong> but runs in demo mode
-        until a real payment provider is connected.
-      </div>
-    </div>
-  </div>
+    </aside>
+  </form>
 
-  <p class="spaced">Not sure yet? <a href="/book-a-trip-seo-case-study/destinations/">Compare the three destinations</a> or see <a href="/book-a-trip-seo-case-study/why-us/">why this planning flow works the way it does</a>.</p>
+  <p class="spaced">Not sure yet? Read the <a href="/book-a-trip-seo-case-study/destinations/british-columbia/vancouver-to-victoria-ferry/">Victoria</a> or <a href="/book-a-trip-seo-case-study/destinations/british-columbia/vancouver-to-nanaimo-ferry/">Nanaimo</a> ferry guide first, or see <a href="/book-a-trip-seo-case-study/why-us/">how this booking flow works</a>.</p>
 </main>
 
 <footer class="site-footer">
   <div class="footer-bottom">Book a Trip &mdash; SEO portfolio project. Not a licensed travel agency.</div>
 </footer>
 
+<script>window.BAT_STATIC = true;</script>
 <script src="/book-a-trip-seo-case-study/script.js"></script>
 </body>
 </html>
