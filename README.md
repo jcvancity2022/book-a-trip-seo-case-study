@@ -25,7 +25,7 @@ bookings or payments are processed.**
 
 - `/` — homepage: hero + trust bar, linking out to the three pages below (each indexable on its own, not just anchors on `/`)
 - `/destinations/` — the three BC destinations (Vancouver, Victoria, Whistler), each linking to its own guide
-- `/plan-a-trip/` — the booking flow: traveler details, two accessibly-priced tiers ($15 self-guided / $49 full session)
+- `/plan-a-trip/` — the booking flow: traveler details, two tiers ($15 sailing checklist / $79 custom trip plan), one page, no account
 - `/why-us/` — what's actually behind the planning flow (database, payment path, the honesty rule)
 - `/destinations/british-columbia/weekend-trips-from-vancouver/` — the first `TARGET NOW` keyword
 - `/destinations/british-columbia/vancouver-to-nanaimo-ferry/` — primary keyword `vancouver to nanaimo ferry` (>1,000/mo, KD Easy, Canada): BC Ferries vs. Hullo comparison, the content gap no competitor filled
